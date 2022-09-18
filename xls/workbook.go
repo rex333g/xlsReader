@@ -84,6 +84,11 @@ Next:
 	recordDataLength := int32(helpers.BytesToUint16(stream[point+2 : point+4]))
 	sPoint = point + 4
 
+	// throw error if detected password encrypted
+	if bytes.Compare(recordNumber, []byte{0x2f, 0x00}) == 0 {
+		return errors.New("password encrypted")
+	}
+	
 	if bytes.Compare(recordNumber, record.IndexRecord[:]) == 0 {
 		_ = new(record.LabelSSt)
 		goto EIF
