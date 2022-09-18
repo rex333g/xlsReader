@@ -1,19 +1,20 @@
 ## xlsReader
 
-Библиотека для чтения xls файлов / Golang read xls library
+clone from github.com/shakinm/xlsReader
+read xls file
 
-## Установка / Installation
+## Installation
 
-`$ go get github.com/shakinm/xlsReader`
+`$ go get github.com/rex333g/xlsReader`
 
-## Использование / Using
+## Using
 
 ```go
 package main
 
 import (
 	"fmt"
-	"github.com/shakinm/xlsReader/xls"
+	"github.com/rex333g/xlsReader/xls"
 	"log"
 )
 
