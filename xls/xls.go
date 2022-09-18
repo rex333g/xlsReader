@@ -86,7 +86,7 @@ func readStream(reader io.ReadSeeker, streamSize uint32) (workbook Workbook, err
 	err = workbook.read(stream)
 
 	if err != nil {
-		return workbook, nil
+		return workbook, err
 	}
 
 	for k := range workbook.sheets {
