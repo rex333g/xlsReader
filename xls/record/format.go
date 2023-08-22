@@ -54,9 +54,8 @@ func (r *Format) Read(stream []byte, vers []byte) {
 	} else {
 		copy(r.ifmt[:], stream[:2])
 		copy(r.cch[:], stream[2:4])
-		copy(r.grbit[:], stream[4:4])
 		r.rgb = make([]byte, helpers.BytesToUint16(r.cch[:]))
-		copy(r.rgb[:], stream[5:])
+		copy(r.rgb[:], stream[4:])
 	}
 
 }
@@ -107,7 +106,6 @@ func (r *Format) GetFormatString(data structure.CellData) string {
 			} else if strings.Contains(r.String(), "0") {
 				return fmt.Sprintf("%.f", data.GetFloat64())
 			} else {
-				fmt.Println(r.String())
 				t := helpers.TimeFromExcelTime(data.GetFloat64(), false)
 				dateFormat := strings.ReplaceAll(r.String(), "HH:MM:SS", "hh:mm:ss")
 				dateFormat = strings.ReplaceAll(dateFormat, "\\", "")

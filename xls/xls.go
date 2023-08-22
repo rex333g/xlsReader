@@ -11,10 +11,28 @@ func OpenFile(fileName string) (workbook Workbook, err error) {
 
 	adaptor, err := cfb.OpenFile(fileName)
 
+	defer adaptor.CloseFile()
+
 	if err != nil {
 		return workbook, err
 	}
 
+	return openCfb(adaptor)
+}
+
+// OpenReader - Open document from the file reader
+func OpenReader(fileReader io.ReadSeeker) (workbook Workbook, err error) {
+
+	adaptor, err := cfb.OpenReader(fileReader)
+
+	if err != nil {
+		return workbook, err
+	}
+	return openCfb(adaptor)
+}
+
+// OpenFile - Open document from the file
+func openCfb(adaptor cfb.Cfb) (workbook Workbook, err error) {
 	var book *cfb.Directory
 	var root *cfb.Directory
 	for _, dir := range adaptor.GetDirs() {
@@ -61,7 +79,6 @@ func readStream(reader io.ReadSeeker, streamSize uint32) (workbook Workbook, err
 		return workbook, nil
 	}
 
-
 	if err != nil {
 		return workbook, nil
 	}
@@ -69,7 +86,7 @@ func readStream(reader io.ReadSeeker, streamSize uint32) (workbook Workbook, err
 	err = workbook.read(stream)
 
 	if err != nil {
-		return workbook, nil
+		return workbook, err
 	}
 
 	for k := range workbook.sheets {
